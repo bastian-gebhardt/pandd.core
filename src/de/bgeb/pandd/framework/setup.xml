@@ -12,7 +12,7 @@
     <property name="project_artifactId" value="demo" />
     <property name="project_version" value="0.1.0-SNAPSHOT" />
 
-	<property name="arche_groupId" value="de.bgeb.arche.pandd" />
+	<property name="arche_groupId" value="de.bgeb.pandd.arche" />
     <property name="arche_artifactId" value="commonlib" />
     <property name="arche_version" value="0.1.0-SNAPSHOT" />
     
