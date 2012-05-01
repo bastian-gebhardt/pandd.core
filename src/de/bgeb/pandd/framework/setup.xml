@@ -1,0 +1,50 @@
+<project name="setup" basedir="." xmlns:artifact="antlib:org.apache.maven.artifact.ant">
+    <description>
+        Create a maven supported PHP-Project
+    </description>
+
+    <property name="m2_upload_repo" value="http://localhost:8080/archiva/repository/internal/" />
+    <property name="m2_download_repo" value="http://localhost:8080/archiva/repository/internal/" />
+	
+    <property name="pandd_version" value="0.1.0-SNAPSHOT" />
+
+    <property name="project_groupId" value="de.bgeb" />
+    <property name="project_artifactId" value="demo" />
+    <property name="project_version" value="0.1.0-SNAPSHOT" />
+
+	<property name="arche_groupId" value="de.bgeb.arche.pandd" />
+    <property name="arche_artifactId" value="commonlib" />
+    <property name="arche_version" value="0.1.0-SNAPSHOT" />
+    
+    
+    <!-- nothing to configure below -->     
+
+    <!-- Betriebssystemunabhaengige Loesung finden -->
+    <exec executable="sed" inputstring="${arche_groupId}" outputproperty="arche_groupIdAsPath">
+      <arg value="s/\./\//g"/>
+    </exec>    
+    
+    <!-- downloads pandd framework from maven repo server -->
+   <target name="_prepare" >
+        <delete includeEmptyDirs="true">
+            <fileset dir="." excludes="setup.xml .project"/>
+        </delete>
+        <artifact:remoteRepository id="remote.repository" url="${m2_download_repo}" />
+        <artifact:pom id="virtual-pomfile" groupId="de.bgeb" artifactId="pandd-setup" version="1.0.0" name="PHP Lib Project">
+            <dependency groupId="${arche_groupId}" artifactId="${arche_artifactId}" version="${arche_version}" />
+        </artifact:pom> 
+        
+        <artifact:dependencies filesetId="deps.fileset" >
+            <pom refid="virtual-pomfile"/>
+            <remoteRepository refid="remote.repository" />
+        </artifact:dependencies>
+        <unzip dest="lib/">
+          <fileset refid="deps.fileset" />
+        </unzip>
+    </target>
+
+    <target name="setup" depends="_prepare">
+        <ant antfile="lib/${arche_groupIdAsPath}/${arche_artifactId}/build-impl.xml" dir="." target="setup"/>
+    </target>   
+    
+</project>

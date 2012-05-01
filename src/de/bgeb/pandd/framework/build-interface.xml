@@ -1,0 +1,27 @@
+<project name="@add_project_name_here@" basedir="." xmlns:artifact="antlib:org.apache.maven.artifact.ant">
+    <description>
+    	Build file for Pandd Framework Developing
+    	(there are nothing to configure in this file)
+    </description>
+
+	<target name="clean">
+		<ant antfile="@add_build-impl_file_here@" dir="." target="clean"/>
+	</target>
+	<target name="update-dependencies">
+		<ant antfile="@add_build-impl_file_here@" dir="." target="update-dependencies"/>
+	</target>
+	<target name="test">
+		<ant antfile="@add_build-impl_file_here@" dir="." target="test"/>
+	</target>
+	<target name="publish">
+		<ant antfile="@add_build-impl_file_here@" dir="." target="publish"/>
+	</target>
+	
+	<target name="m2_install">
+		<ant antfile="@add_build-impl_file_here@" dir="." target="m2_install"/>
+	</target>
+	<target name="m2_deploy">
+		<ant antfile="@add_build-impl_file_here@" dir="." target="m2_deploy"/>
+	</target>
+
+</project>
