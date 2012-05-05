@@ -2,6 +2,6 @@
 /.buildpath
 /.classpath
 /.settings
-lib/
+/lib
 dist/
 /setup.xml
