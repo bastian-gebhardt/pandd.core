@@ -4,6 +4,8 @@
     	(there are nothing to configure in this file)
     </description>
 
+	<artifact:pom id="pomfile" file="pom.xml" />
+	
 	<target name="clean">
 		<ant antfile="@add_build-impl_file_here@" dir="." target="clean"/>
 	</target>
