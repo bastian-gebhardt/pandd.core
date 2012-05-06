@@ -7,8 +7,13 @@
 	<target name="clean">
 		<ant antfile="@add_build-impl_file_here@" dir="." target="clean"/>
 	</target>
-	<target name="update-dependencies">
-		<ant antfile="@add_build-impl_file_here@" dir="." target="update-dependencies"/>
+	<target name="update-dependencies" >
+		<artifact:dependencies filesetId="deps.fileset" >
+			<pom refid="pomfile"/>
+   		</artifact:dependencies>
+   		<unzip dest="lib">
+    		<fileset refid="deps.fileset" />
+   		</unzip>
 	</target>
 	<target name="test">
 		<ant antfile="@add_build-impl_file_here@" dir="." target="test"/>
