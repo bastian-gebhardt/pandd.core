@@ -4,16 +4,21 @@
     </description>
 
     <property name="project_groupId" value="add.your.package" />
-    <property name="project_artifactId" value="myartifact" />
+    <property name="project_artifactId" value="appdemo" />
     <property name="project_version" value="0.1.0-SNAPSHOT" />
 
-	<property name="arche_groupId" value="de.bgeb.pandd.arche" />
-    <property name="arche_artifactId" value="commonlib" />
+    <property name="arche_groupId" value="de.bgeb.pandd.arche" />
+    <property name="arche_artifactId" value="commonapp" />
     <property name="arche_version" value="0.1.0-SNAPSHOT" />
     
     <property name="m2_upload_repo" value="http://localhost:8080/archiva/repository/internal/" />
     <property name="m2_download_repo" value="http://localhost:8080/archiva/repository/internal/" />
-    
+
+<!--	
+    <property name="m2_upload_repo" value="http://sx165.ipx:18080/archiva/repository/internal/" />
+    <property name="m2_download_repo" value="http://sx165.ipx:18080/archiva/repository/internal/" />
+-->
+	
     <!-- nothing to configure below -->     
 
     <!-- Betriebssystemunabhaengige Loesung finden -->
@@ -23,23 +28,24 @@
     
     <!-- downloads pandd framework from maven repo server -->
    <target name="_prepare" >
-   		<defaultexcludes remove="**/.gitignore"/>
+        <defaultexcludes remove="**/.gitignore"/>
         <delete includeEmptyDirs="true">
             <fileset dir="." excludes="setup.xml .project"/>
         </delete>
         <artifact:remoteRepository id="remote.repository" url="${m2_download_repo}" />
         <artifact:pom id="virtual-pomfile" groupId="de.bgeb" artifactId="pandd-setup" version="1.0.0" name="PHP Lib Project">
-            <dependency groupId="${arche_groupId}" artifactId="${arche_artifactId}" version="${arche_version}" />
+            <dependency groupId="${arche_groupId}" artifactId="${arche_artifactId}" version="${arche_version}" scope="test" />
+        	<dependency groupId="de.bgeb.pandd" artifactId="framework" version="0.1.0-SNAPSHOT" scope="test" />
         </artifact:pom> 
         
-        <artifact:dependencies filesetId="deps.fileset" >
+        <artifact:dependencies filesetId="deps.fileset" useScope="test">
             <pom refid="virtual-pomfile"/>
             <remoteRepository refid="remote.repository" />
         </artifact:dependencies>
         <unzip dest="lib/">
-          	<fileset refid="deps.fileset" />
+            <fileset refid="deps.fileset" />
         </unzip>
-   		<defaultexcludes add="**/.gitignore"/>
+        <defaultexcludes add="**/.gitignore"/>
     </target>
 
     <target name="setup" depends="_prepare">
