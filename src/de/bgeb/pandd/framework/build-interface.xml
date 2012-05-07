@@ -21,6 +21,7 @@
    		<unzip dest="lib">
     		<fileset refid="deps.fileset" />
    		</unzip>
+		<ant antfile="@add_build-impl_file_here@" dir="." target="post_update-dependencies"/>
 	</target>
 	<target name="test">
 		<ant antfile="@add_build-impl_file_here@" dir="." target="test"/>
