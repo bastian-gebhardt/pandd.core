@@ -10,6 +10,11 @@
 		<ant antfile="@add_build-impl_file_here@" dir="." target="clean"/>
 	</target>
 	<target name="update-dependencies" >
+        <defaultexcludes remove="**/.gitignore"/>
+        <delete includeEmptyDirs="true">
+            <fileset dir="lib" includes="**/*" excludes=".gitignore" />
+        </delete>       
+        <defaultexcludes add="**/.gitignore"/>
 		<artifact:dependencies filesetId="deps.fileset" >
 			<pom refid="pomfile"/>
    		</artifact:dependencies>
