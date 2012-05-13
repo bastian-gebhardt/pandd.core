@@ -30,11 +30,11 @@
 		<ant antfile="@add_build-impl_file_here@" dir="." target="publish"/>
 	</target>
 	
-	<target name="m2_install">
-		<ant antfile="@add_build-impl_file_here@" dir="." target="m2_install"/>
+	<target name="mvn_install">
+		<ant antfile="@add_build-impl_file_here@" dir="." target="mvn_install"/>
 	</target>
-	<target name="m2_deploy">
-		<ant antfile="@add_build-impl_file_here@" dir="." target="m2_deploy"/>
+	<target name="mvn_deploy">
+		<ant antfile="@add_build-impl_file_here@" dir="." target="mvn_deploy"/>
 	</target>
 
 </project>
