@@ -11,9 +11,12 @@
     <property name="arche_artifactId" value="commonapp" />
     <property name="arche_version" value="0.1.0-SNAPSHOT" />
     
-    <property name="m2_upload_repo" value="http://localhost:8080/archiva/repository/internal/" />
-    <property name="m2_download_repo" value="http://localhost:8080/archiva/repository/internal/" />
+    <property name="mvn_upload_repo" value="http://localhost:8080/archiva/repository/internal/" />
+    <property name="mvn_download_repo" value="http://localhost:8080/archiva/repository/internal/" />
+    <property name="mvn_snapshot_upload_repo" value="http://localhost:8080/archiva/repository/internal/" />
+    <property name="mvn_snapshot_download_repo" value="http://localhost:8080/archiva/repository/internal/" />
 
+	
 <!--	
     <property name="m2_upload_repo" value="http://sx165.ipx:18080/archiva/repository/internal/" />
     <property name="m2_download_repo" value="http://sx165.ipx:18080/archiva/repository/internal/" />
