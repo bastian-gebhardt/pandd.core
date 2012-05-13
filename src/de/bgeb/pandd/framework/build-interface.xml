@@ -4,10 +4,12 @@
     	(there are nothing to configure in this file)
     </description>
 
+	<property name="pandd.used-arche" value="@add_arche-package_here@" />
+	
 	<artifact:pom id="pomfile" file="pom.xml" />
 	
 	<target name="clean">
-		<ant antfile="@add_build-impl_file_here@" dir="." target="clean"/>
+		<ant antfile="${pandd.used-arche}/build-impl.xml" dir="." target="clean"/>
 	</target>
 	<target name="update-dependencies" >
         <defaultexcludes remove="**/.gitignore"/>
@@ -15,26 +17,26 @@
             <fileset dir="lib" includes="**/*" excludes=".gitignore" />
         </delete>       
         <defaultexcludes add="**/.gitignore"/>
-		<artifact:dependencies filesetId="deps.fileset" >
+		<artifact:dependencies filesetId="deps.fileset" useScope="test" >
 			<pom refid="pomfile"/>
    		</artifact:dependencies>
    		<unzip dest="lib">
     		<fileset refid="deps.fileset" />
    		</unzip>
-		<ant antfile="@add_build-impl_file_here@" dir="." target="post_update-dependencies"/>
+		<ant antfile="${pandd.used-arche}/build-impl.xml" dir="." target="post_update-dependencies"/>
 	</target>
 	<target name="test">
-		<ant antfile="@add_build-impl_file_here@" dir="." target="test"/>
+		<ant antfile="${pandd.used-arche}/build-impl.xml" dir="." target="test"/>
 	</target>
 	<target name="publish">
-		<ant antfile="@add_build-impl_file_here@" dir="." target="publish"/>
+		<ant antfile="${pandd.used-arche}/build-impl.xml" dir="." target="publish"/>
 	</target>
 	
 	<target name="mvn_install">
-		<ant antfile="@add_build-impl_file_here@" dir="." target="mvn_install"/>
+		<ant antfile="${pandd.used-arche}/build-impl.xml" dir="." target="mvn_install"/>
 	</target>
 	<target name="mvn_deploy">
-		<ant antfile="@add_build-impl_file_here@" dir="." target="mvn_deploy"/>
+		<ant antfile="${pandd.used-arche}/build-impl.xml" dir="." target="mvn_deploy"/>
 	</target>
 
 </project>
