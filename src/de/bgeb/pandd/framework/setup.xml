@@ -38,7 +38,7 @@
         <artifact:remoteRepository id="remote.repository" url="${m2_download_repo}" />
         <artifact:pom id="virtual-pomfile" groupId="de.bgeb" artifactId="pandd-setup" version="1.0.0" name="PHP Lib Project">
             <dependency groupId="${arche_groupId}" artifactId="${arche_artifactId}" version="${arche_version}" scope="test" />
-        	<dependency groupId="de.bgeb.pandd" artifactId="framework" version="0.1.0-SNAPSHOT" scope="test" />
+        	<dependency groupId="de.bgeb.pandd" artifactId="framework" version="0.1.0-SNAPSHOT" />
         </artifact:pom> 
         
         <artifact:dependencies filesetId="deps.fileset" useScope="test">
