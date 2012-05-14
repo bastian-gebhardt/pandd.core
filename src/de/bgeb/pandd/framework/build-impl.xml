@@ -1,0 +1,77 @@
+<!DOCTYPE project>
+<project name="pandd_build_impl" basedir="." xmlns:artifact="antlib:org.apache.maven.artifact.ant">
+    <description>
+    	Implementation from Build file for Pandd Framework Developing
+    	(there are nothing to configure in this file)
+    </description>
+
+	<taskdef resource="net/sf/antcontrib/antlib.xml"/>
+	
+	<artifact:pom id="pomfile" file="pom.xml" />
+	
+	<import file="${basedir}/lib/de/bgeb/pandd/package/${pomfile.packaging}.xml" as="packaging"/>
+
+	<property name="package_file" value="${pomfile.artifactId}-${pomfile.version}"/>
+	
+
+	
+    <target name="clean_dist">
+        <defaultexcludes remove="**/.gitignore"/>
+        <delete includeEmptyDirs="true">
+            <fileset dir="dist/compiled" includes="**/*" excludes=".gitignore" />
+            <fileset dir="dist" includes="**/*" excludes="compiled/*" />
+        </delete>
+        <defaultexcludes add="**/.gitignore"/>
+    </target> 
+    
+    <target name="clean_lib">
+        <defaultexcludes remove="**/.gitignore"/>
+        <delete includeEmptyDirs="true">
+            <fileset dir="lib" includes="**/*" excludes=".gitignore" />
+        </delete>       
+        <defaultexcludes add="**/.gitignore"/>
+     </target> 
+    
+    <target name="clean" depends="clean_lib, clean_dist" />
+	
+	
+	<target name="update-dependencies" depends="clean_lib">
+		<artifact:dependencies filesetId="deps.fileset" >
+			<pom refid="pomfile"/>
+   		</artifact:dependencies>
+   		<unzip dest="lib">
+    		<fileset refid="deps.fileset" />
+   		</unzip>
+	</target>
+
+	<target name="post_update-dependencies">
+	</target>
+		
+	<target name="test">
+		<echo message="not implemented yet" />
+	</target>
+
+	<target name="publish" depends="mvn_package" />
+
+	
+	<!-- no real error; target is defined in imported file -->
+	<target name="mvn_package" >
+		<runtarget target="packaging._package"/>
+	</target>
+	
+	<target name="mvn_install" depends="mvn_package">
+		<artifact:install>
+			<attach file="dist/${pomfile.artifactId}-${pomfile.version}.${file-type}" type="${file-type}" />
+			<pom refid="pomfile"/>
+		</artifact:install>
+	</target>
+	<target name="mvn_deploy" depends="mvn_install" >
+		<!-- bugfix, avoids deploying artifact twice -->
+	  <artifact:pom id="bugfixpom" file="pom.xml" />
+	  <artifact:deploy>
+		<attach file="dist/${pomfile.artifactId}-${pomfile.version}.${file-type}" type="${file-type}" />
+	  	<pom refid="bugfixpom"/>
+	  </artifact:deploy>
+
+	</target>
+</project>
