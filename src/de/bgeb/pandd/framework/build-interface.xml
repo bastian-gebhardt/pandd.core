@@ -4,7 +4,11 @@
     	(there are nothing to configure in this file)
     </description>
 
+	<taskdef resource="net/sf/antcontrib/antlib.xml"/>
+	
 	<property name="pandd.used-arche" value="@add_arche-package_here@" />
+	<property name="pandd.framework.version" value="@add_pandd-framework-version_here@" />
+	
 	
 	<artifact:pom id="pomfile" file="pom.xml" />
 	
@@ -12,6 +16,14 @@
 		<ant antfile="lib/de/bgeb/pandd/framework/build-impl.xml" dir="." target="clean"/>
 	</target>
 	<target name="update-dependencies" >
+		 <if>
+		 	<equals arg1="${pandd.framework.available}" arg2="true" />
+		 <then>
+		 	<echo>No Download</echo>
+		 	<ant antfile="lib/de/bgeb/pandd/framework/build-impl.xml" dir="." target="update-dependencies"/>
+		 </then>
+		 <else>
+		 	<echo>Download first</echo>
         <defaultexcludes remove="**/.gitignore"/>
         <delete includeEmptyDirs="true">
             <fileset dir="lib" includes="**/*" excludes=".gitignore" />
@@ -24,7 +36,10 @@
     		<fileset refid="deps.fileset" />
    		</unzip>
 		<ant antfile="lib/de/bgeb/pandd/framework/build-impl.xml" dir="." target="post_update-dependencies"/>
-	</target>
+		 </else>
+		</if>
+
+    </target>
 	<target name="test">
 		<ant antfile="lib/de/bgeb/pandd/framework/build-impl.xml" dir="." target="test"/>
 	</target>
