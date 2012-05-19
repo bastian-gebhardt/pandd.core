@@ -9,10 +9,20 @@
 	
 	<artifact:pom id="pomfile" file="pom.xml" />
 	
-	<import file="${basedir}/lib/de/bgeb/pandd/package/${pomfile.packaging}.xml" as="packaging"/>
+	  <macrodef name="resolveProperty">
+	    <attribute name="property" />
+	  	<attribute name="part1" />
+	  	<attribute name="part2" />
+	    <sequential>
+	      <property name="@{property}" value="${@{part1}.@{part2}}" />
+	    </sequential>
+	  </macrodef>
 
 	<property name="package_file" value="${pomfile.artifactId}-${pomfile.version}"/>
-	
+
+	<resolveProperty property="packfile" part1="pomfile.properties.pandd.packaging" part2="${pomfile.packaging}" />
+
+	<include file="${basedir}/lib/${packfile}" as="packfile" />
 
 	
     <target name="clean_dist">
@@ -35,13 +45,8 @@
     <target name="clean" depends="clean_lib, clean_dist" />
 	
 	
-	<target name="update-dependencies" depends="clean_lib">
-		<artifact:dependencies filesetId="deps.fileset" >
-			<pom refid="pomfile"/>
-   		</artifact:dependencies>
-   		<unzip dest="lib">
-    		<fileset refid="deps.fileset" />
-   		</unzip>
+	<target name="update-dependencies_stage2">
+		<runtarget target="post_update-dependencies"/>
 	</target>
 
 	<target name="post_update-dependencies">
@@ -54,9 +59,8 @@
 	<target name="publish" depends="mvn_package" />
 
 	
-	<!-- no real error; target is defined in imported file -->
 	<target name="mvn_package" >
-		<runtarget target="packaging._package"/>
+		<antcallback target="packfile._package" return="file-type"/>
 	</target>
 	
 	<target name="mvn_install" depends="mvn_package">
