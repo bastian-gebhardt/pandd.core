@@ -15,7 +15,8 @@
         <defaultexcludes remove="**/.gitignore"/>
         <delete includeEmptyDirs="true">
             <fileset dir="lib" includes="**/*" excludes=".gitignore" />
-        </delete>       
+        </delete>      
+		<delete file="pandd.php" />
         <defaultexcludes add="**/.gitignore"/>
 		<artifact:dependencies filesetId="deps.fileset" useScope="test" >
 			<pom refid="pomfile"/>
