@@ -30,7 +30,6 @@
         <artifact:remoteRepository id="remote.repository" url="${mvn_download_repo}" />
         <artifact:pom id="virtual-pomfile" groupId="de.bgeb" artifactId="pandd-setup" version="1.0.0" name="PHP Lib Project">
             <dependency groupId="${arche_groupId}" artifactId="${arche_artifactId}" version="${arche_version}" scope="test" />
-        	<dependency groupId="de.bgeb.pandd" artifactId="framework" version="0.1.0-SNAPSHOT" />
         </artifact:pom> 
         
         <artifact:dependencies filesetId="deps.fileset" useScope="test">
@@ -44,7 +43,7 @@
     </target>
 
     <target name="setup" depends="_prepare">
-        <ant antfile="lib/${arche_groupIdAsPath}/${arche_artifactId}/build-impl.xml" dir="." target="setup"/>
+        <ant antfile="lib/${arche_groupIdAsPath}/${arche_artifactId}/setup-impl.xml" dir="." target="setup"/>
     </target>   
     
 </project>
