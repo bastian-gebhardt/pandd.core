@@ -24,6 +24,7 @@
 
 	<include file="${basedir}/lib/${packfile}" as="packfile" />
 
+	<available file="lib/${pomfile.properties.pandd.bootstrap.dev}" property="bootstrapfile-available" />
 	
     <target name="clean_dist">
         <defaultexcludes remove="**/.gitignore"/>
@@ -45,16 +46,29 @@
     <target name="clean" depends="clean_lib, clean_dist" />
 	
 	
-	<target name="update-dependencies_stage2">
+	<target name="update-dependencies_stage2" depends="provide-bootstrap">
 		<runtarget target="post_update-dependencies"/>
 	</target>
 
+	
+	<target name="provide-bootstrap" if="${bootstrapfile-available}">
+		<ant antfile="lib/${pomfile.properties.pandd.bootstrap.dev}" target="_provide" />	
+	</target>
+	
 	<target name="post_update-dependencies">
 	</target>
 		
-	<target name="test">
-		<echo message="not implemented yet" />
+	<target name="_test_syntax">
+		<exec executable="resources/syntax_check.sh" failonerror="true" />
 	</target>
+
+	<target name="_test_phpunit">
+		<exec executable="php" failonerror="true">
+			<arg line="resources/phpunit.php -c resources/phpunit.xml" />
+		</exec>
+	</target>	
+	
+	<target name="test" depends="_test_syntax, _test_phpunit" />
 
 	<target name="publish" depends="mvn_package" />
 
@@ -70,11 +84,15 @@
 		</artifact:install>
 	</target>
 	<target name="mvn_deploy" depends="mvn_install" >
-		<!-- bugfix, avoids deploying artifact twice -->
-	  <artifact:pom id="bugfixpom" file="pom.xml" />
+		<delete file="dist/deploy-pom.xml" />
+		<copy file="pom.xml" tofile="dist/deploy-pom.xml" />
+		<replaceregexp replace="&lt;!-- pandd framework dependencies removed for deploy --&gt;" flags="s" byline="false" file="dist/deploy-pom.xml">
+			<regexp pattern="&lt;!-- pandd framework dependencies --&gt;.+&lt;!-- pandd framework dependencies --&gt;" />
+		</replaceregexp>
+	  <artifact:pom id="deploypom" file="dist/deploy-pom.xml" />
 	  <artifact:deploy>
 		<attach file="dist/${pomfile.artifactId}-${pomfile.version}.${file-type}" type="${file-type}" />
-	  	<pom refid="bugfixpom"/>
+	  	<pom refid="deploypom"/>
 	  </artifact:deploy>
 
 	</target>
