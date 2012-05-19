@@ -6,24 +6,12 @@
 
 	<taskdef resource="net/sf/antcontrib/antlib.xml"/>
 	
-	<property name="pandd.used-arche" value="@add_arche-package_here@" />
-	<property name="pandd.framework.version" value="@add_pandd-framework-version_here@" />
-	
-	
 	<artifact:pom id="pomfile" file="pom.xml" />
 	
 	<target name="clean">
 		<ant antfile="lib/de/bgeb/pandd/framework/build-impl.xml" dir="." target="clean"/>
 	</target>
 	<target name="update-dependencies" >
-		 <if>
-		 	<equals arg1="${pandd.framework.available}" arg2="true" />
-		 <then>
-		 	<echo>No Download</echo>
-		 	<ant antfile="lib/de/bgeb/pandd/framework/build-impl.xml" dir="." target="update-dependencies"/>
-		 </then>
-		 <else>
-		 	<echo>Download first</echo>
         <defaultexcludes remove="**/.gitignore"/>
         <delete includeEmptyDirs="true">
             <fileset dir="lib" includes="**/*" excludes=".gitignore" />
@@ -35,28 +23,23 @@
    		<unzip dest="lib">
     		<fileset refid="deps.fileset" />
    		</unzip>
-		<ant antfile="lib/de/bgeb/pandd/framework/build-impl.xml" dir="." target="post_update-dependencies"/>
-		 </else>
-		</if>
-
+		 	<ant antfile="lib/de/bgeb/pandd/framework/build-impl.xml" dir="." target="update-dependencies_stage2"/>
     </target>
+
 	<target name="test">
 		<ant antfile="lib/de/bgeb/pandd/framework/build-impl.xml" dir="." target="test"/>
 	</target>
 	<target name="publish">
 		<ant antfile="lib/de/bgeb/pandd/framework/build-impl.xml" dir="." target="publish">
-			 <property name="pandd.used-arche" value="${pandd.used-arche}" />
 		</ant>
 	</target>
 	
 	<target name="mvn_install">
 		<ant antfile="lib/de/bgeb/pandd/framework/build-impl.xml" dir="." target="mvn_install">
-			<property name="pandd.used-arche" value="${pandd.used-arche}" />
 		</ant>
 	</target>
 	<target name="mvn_deploy">
 		<ant antfile="lib/de/bgeb/pandd/framework/build-impl.xml" dir="." target="mvn_deploy">
-			<property name="pandd.used-arche" value="${pandd.used-arche}" />
 		</ant>
 	</target>
 
