@@ -1,5 +1,5 @@
 <!DOCTYPE project>
-<project name="pandd-arche-framework" basedir="." xmlns:artifact="antlib:org.apache.maven.artifact.ant">
+<project name="pandd-framework" basedir="." xmlns:artifact="antlib:org.apache.maven.artifact.ant">
     <description>
     	build file for developing new pandd plugins
     </description>
