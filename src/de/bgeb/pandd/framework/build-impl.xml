@@ -78,22 +78,38 @@
 	</target>
 	
 	<target name="mvn_install" depends="mvn_package">
-		<artifact:install>
-			<attach file="dist/${pomfile.artifactId}-${pomfile.version}.${file-type}" type="${file-type}" />
-			<pom refid="pomfile"/>
-		</artifact:install>
+		<if>
+			<equals arg1="${file-type}" arg2="jar"/>
+
+			<then>
+				<artifact:install file="dist/${pomfile.artifactId}-${pomfile.version}.jar">
+				  	<pom refid="pomfile"/>
+			     </artifact:install>				
+			</then>
+			<else>
+				<artifact:install>
+					<attach file="dist/${pomfile.artifactId}-${pomfile.version}.${file-type}" type="${file-type}" />
+				  	<pom refid="pomfile"/>
+			     </artifact:install>			
+			</else>
+		</if>
 	</target>
 	<target name="mvn_deploy" depends="mvn_install" >
-		<delete file="dist/deploy-pom.xml" />
-		<copy file="pom.xml" tofile="dist/deploy-pom.xml" />
-		<replaceregexp replace="&lt;!-- pandd framework dependencies removed for deploy --&gt;" flags="s" byline="false" file="dist/deploy-pom.xml">
-			<regexp pattern="&lt;!-- pandd framework dependencies --&gt;.+&lt;!-- pandd framework dependencies --&gt;" />
-		</replaceregexp>
-	  <artifact:pom id="deploypom" file="dist/deploy-pom.xml" />
-	  <artifact:deploy>
-		<attach file="dist/${pomfile.artifactId}-${pomfile.version}.${file-type}" type="${file-type}" />
-	  	<pom refid="deploypom"/>
-	  </artifact:deploy>
+      <artifact:pom id="deploypom" file="pom.xml" />
+		<if>
+			<equals arg1="${file-type}" arg2="jar"/>
 
+			<then>
+				<artifact:deploy file="dist/${pomfile.artifactId}-${pomfile.version}.jar">
+				  	<pom refid="deploypom"/>
+			     </artifact:deploy>				
+			</then>
+			<else>
+				<artifact:deploy>
+					<attach file="dist/${pomfile.artifactId}-${pomfile.version}.${file-type}" type="${file-type}" />
+				  	<pom refid="deploypom"/>
+			     </artifact:deploy>			
+			</else>
+		</if>
 	</target>
 </project>
