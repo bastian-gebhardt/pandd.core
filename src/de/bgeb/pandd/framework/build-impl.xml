@@ -78,38 +78,15 @@
 	</target>
 	
 	<target name="mvn_install" depends="mvn_package">
-		<if>
-			<equals arg1="${file-type}" arg2="jar"/>
-
-			<then>
-				<artifact:install file="dist/${pomfile.artifactId}-${pomfile.version}.jar">
+				<artifact:install file="dist/${pomfile.artifactId}-${pomfile.version}.${file-type}">
 				  	<pom refid="pomfile"/>
 			     </artifact:install>				
-			</then>
-			<else>
-				<artifact:install>
-					<attach file="dist/${pomfile.artifactId}-${pomfile.version}.${file-type}" type="${file-type}" />
-				  	<pom refid="pomfile"/>
-			     </artifact:install>			
-			</else>
-		</if>
 	</target>
 	<target name="mvn_deploy" depends="mvn_install" >
       <artifact:pom id="deploypom" file="pom.xml" />
-		<if>
-			<equals arg1="${file-type}" arg2="jar"/>
-
-			<then>
-				<artifact:deploy file="dist/${pomfile.artifactId}-${pomfile.version}.jar">
+				<artifact:deploy file="dist/${pomfile.artifactId}-${pomfile.version}.${file-type}">
 				  	<pom refid="deploypom"/>
 			     </artifact:deploy>				
-			</then>
-			<else>
-				<artifact:deploy>
-					<attach file="dist/${pomfile.artifactId}-${pomfile.version}.${file-type}" type="${file-type}" />
-				  	<pom refid="deploypom"/>
-			     </artifact:deploy>			
-			</else>
-		</if>
+
 	</target>
 </project>
