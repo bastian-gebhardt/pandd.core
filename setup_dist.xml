@@ -3,20 +3,20 @@
         Create a maven supported PHP-Project
     </description>
 
-    <property name="project_groupId" value="de.bgeb" />
-    <property name="project_artifactId" value="test_lib" />
+    <property name="project_groupId" value="my.group" />
+    <property name="project_artifactId" value="firstLib" />
     <property name="project_version" value="0.1.0-SNAPSHOT" />
 
     <property name="arche_groupId" value="de.bgeb.pandd.arche" />
-    <property name="arche_artifactId" value="commonapp" />
-    <property name="arche_version" value="0.2.0-SNAPSHOT" />
+    <property name="arche_artifactId" value="commonlib" />
+    <property name="arche_version" value="1.0.0" />
     
     <property name="mvn_download_repo" value="http://localhost:8080/archiva/repository/php-release/" />
 	
 	<!-- if you have a parent-pom with repository settings aviable, define it here --> 
 	<property name="use_parent-pom" value="false" />
-    <property name="parent-pom_groupId" value="de.bgeb" />
-    <property name="parent-pom_artifactId" value="bgeb-superpom" />
+    <property name="parent-pom_groupId" value="my.group" />
+    <property name="parent-pom_artifactId" value="parent-pom" />
     <property name="parent-pom_version" value="1.0.0" />
 	
 	
