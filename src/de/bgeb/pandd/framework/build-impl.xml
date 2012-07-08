@@ -72,14 +72,11 @@
 	
 	<target name="test" depends="_test_syntax, _test_phpunit" />
 
-	<target name="publish" depends="mvn_package" />
-
-	
-	<target name="mvn_package" depends="clean_dist" >
+	<target name="package" depends="clean_dist" >
 		<antcallback target="_package" return="file-type"/>
 	</target>
 	
-	<target name="mvn_install" depends="mvn_package">
+	<target name="mvn_install" depends="package">
 				<artifact:install file="dist/${pomfile.artifactId}-${pomfile.version}.${file-type}">
 				  	<pom refid="pomfile"/>
 			     </artifact:install>				

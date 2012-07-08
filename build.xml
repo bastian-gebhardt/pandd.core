@@ -1,7 +1,7 @@
 <!DOCTYPE project>
-<project name="pandd-framework" basedir="." xmlns:artifact="antlib:org.apache.maven.artifact.ant">
+<project name="pandd" basedir="." xmlns:artifact="antlib:org.apache.maven.artifact.ant">
     <description>
-    	build file for developing new pandd plugins
+    	build file for developing pandd plugins
     </description>
 
 	<artifact:pom id="pomfile" file="pom.xml" />

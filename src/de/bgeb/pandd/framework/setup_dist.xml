@@ -4,19 +4,19 @@
     </description>
 
     <property name="project_groupId" value="my.group" />
-    <property name="project_artifactId" value="firstLib" />
+    <property name="project_artifactId" value="myFirstLib" />
     <property name="project_version" value="0.1.0-SNAPSHOT" />
 
     <property name="arche_groupId" value="de.bgeb.pandd.arche" />
-    <property name="arche_artifactId" value="commonlib" />
+    <property name="arche_artifactId" value="commonLib" />
     <property name="arche_version" value="1.0.0" />
     
     <property name="mvn_download_repo" value="http://localhost:8080/archiva/repository/php-release/" />
 	
 	<!-- if you have a parent-pom with repository settings aviable, define it here --> 
 	<property name="use_parent-pom" value="false" />
-    <property name="parent-pom_groupId" value="my.group" />
-    <property name="parent-pom_artifactId" value="parent-pom" />
+    <property name="parent-pom_groupId" value="my.group.parent" />
+    <property name="parent-pom_artifactId" value="pom" />
     <property name="parent-pom_version" value="1.0.0" />
 	
 	
@@ -38,7 +38,7 @@
    <target name="_prepare" >
         <defaultexcludes remove="**/.gitignore"/>
         <delete includeEmptyDirs="true">
-            <fileset dir="." excludes="setup.xml .project"/>
+            <fileset dir="." excludes="setup.xml .git .project .buildpath .settings"/>
         </delete>
         <artifact:remoteRepository id="remote.repository" url="${mvn_download_repo}" />
         <artifact:pom id="virtual-pomfile" groupId="de.bgeb" artifactId="pandd-setup" version="1.0.0" name="PHP Lib Project">
