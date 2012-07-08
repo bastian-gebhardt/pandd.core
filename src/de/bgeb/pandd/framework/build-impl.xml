@@ -25,6 +25,7 @@
 	<import file="${basedir}/lib/${packfile}" />
 
 	<available file="lib/${pomfile.properties.pandd.bootstrap.dev}" property="bootstrapfile-available" />
+	<available file="lib/${pomfile.properties.pandd.postupdate}" property="postupdateplugin-available" />
 	
     <target name="clean_dist">
         <defaultexcludes remove="**/.gitignore"/>
@@ -55,7 +56,8 @@
 		<ant antfile="lib/${pomfile.properties.pandd.bootstrap.dev}" target="_provide" />	
 	</target>
 	
-	<target name="post_update-dependencies">
+	<target name="post_update-dependencies" if="${postupdateplugin-available}">
+		<ant antfile="lib/${pomfile.properties.pandd.postupdate}" target="pandd_postupdate_run" />	
 	</target>
 		
 	<target name="_test_syntax">
