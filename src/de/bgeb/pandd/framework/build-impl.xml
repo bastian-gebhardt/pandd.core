@@ -22,7 +22,7 @@
 
 	<resolveProperty property="packfile" part1="pomfile.properties.pandd.packaging" part2="${pomfile.packaging}" />
 
-	<include file="${basedir}/lib/${packfile}" as="packfile" />
+	<import file="${basedir}/lib/${packfile}" />
 
 	<available file="lib/${pomfile.properties.pandd.bootstrap.dev}" property="bootstrapfile-available" />
 	
@@ -73,8 +73,8 @@
 	<target name="publish" depends="mvn_package" />
 
 	
-	<target name="mvn_package" >
-		<antcallback target="packfile._package" return="file-type"/>
+	<target name="mvn_package" depends="clean_dist" >
+		<antcallback target="_package" return="file-type"/>
 	</target>
 	
 	<target name="mvn_install" depends="mvn_package">
