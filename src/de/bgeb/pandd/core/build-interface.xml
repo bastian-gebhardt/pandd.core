@@ -35,7 +35,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	<artifact:pom id="pomfile" file="pom.xml" />
 	
 	<target name="clean">
-		<ant antfile="lib/de/bgeb/pandd/framework/build-impl.xml" dir="." target="clean"/>
+		<ant antfile="lib/de/bgeb/pandd/core/build-impl.xml" dir="." target="clean"/>
 	</target>
 	<target name="update-dependencies" >
         <defaultexcludes remove="**/.gitignore"/>
@@ -50,23 +50,23 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
    		<unzip dest="lib">
     		<fileset refid="deps.fileset" />
    		</unzip>
-		 	<ant antfile="lib/de/bgeb/pandd/framework/build-impl.xml" dir="." target="update-dependencies_stage2"/>
+		 	<ant antfile="lib/de/bgeb/pandd/core/build-impl.xml" dir="." target="update-dependencies_stage2"/>
     </target>
 
 	<target name="test">
-		<ant antfile="lib/de/bgeb/pandd/framework/build-impl.xml" dir="." target="test"/>
+		<ant antfile="lib/de/bgeb/pandd/core/build-impl.xml" dir="." target="test"/>
 	</target>
 	<target name="package">
-		<ant antfile="lib/de/bgeb/pandd/framework/build-impl.xml" dir="." target="publish">
+		<ant antfile="lib/de/bgeb/pandd/core/build-impl.xml" dir="." target="publish">
 		</ant>
 	</target>
 	
 	<target name="mvn_install">
-		<ant antfile="lib/de/bgeb/pandd/framework/build-impl.xml" dir="." target="mvn_install">
+		<ant antfile="lib/de/bgeb/pandd/core/build-impl.xml" dir="." target="mvn_install">
 		</ant>
 	</target>
 	<target name="mvn_deploy">
-		<ant antfile="lib/de/bgeb/pandd/framework/build-impl.xml" dir="." target="mvn_deploy">
+		<ant antfile="lib/de/bgeb/pandd/core/build-impl.xml" dir="." target="mvn_deploy">
 		</ant>
 	</target>
 
