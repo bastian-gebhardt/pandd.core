@@ -100,7 +100,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	<target name="test" depends="_test_syntax, _test_phpunit" />
 
 	<target name="package" depends="clean_dist" >
-		<antcallback target="_package" return="file-type"/>
+		<antcallback target="pandd.packaging.run" return="file-type"/>
 	</target>
 	
 	<target name="mvn_install" depends="package">
