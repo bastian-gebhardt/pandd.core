@@ -57,7 +57,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		<ant antfile="lib/de/bgeb/pandd/core/build-impl.xml" dir="." target="test"/>
 	</target>
 	<target name="package">
-		<ant antfile="lib/de/bgeb/pandd/core/build-impl.xml" dir="." target="publish">
+		<ant antfile="lib/de/bgeb/pandd/core/build-impl.xml" dir="." target="package">
 		</ant>
 	</target>
 	
