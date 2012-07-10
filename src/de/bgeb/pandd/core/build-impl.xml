@@ -80,11 +80,11 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 	
 	<target name="provide-bootstrap" if="${bootstrapfile-available}">
-		<ant antfile="lib/${pomfile.properties.pandd.bootstrap.dev}" target="_provide" />	
+		<ant antfile="lib/${pomfile.properties.pandd.bootstrap.dev}" target="pandd.bootstrap.dev.run" />	
 	</target>
 	
 	<target name="post_update-dependencies" if="${postupdateplugin-available}">
-		<ant antfile="lib/${pomfile.properties.pandd.postupdate}" target="pandd_postupdate_run" />	
+		<ant antfile="lib/${pomfile.properties.pandd.postupdate}" target="pandd.postupdate.run" />	
 	</target>
 		
 	<target name="_test_syntax">
