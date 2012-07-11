@@ -42,10 +42,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         <delete includeEmptyDirs="true">
             <fileset dir="lib" includes="**/*" excludes=".gitignore" />
         </delete>      
-		<delete file="pandd.php" />
+		    <delete file="pandd.php" />
         <defaultexcludes add="**/.gitignore"/>
-		<artifact:dependencies filesetId="deps.fileset" useScope="test" >
-			<pom refid="pomfile"/>
+		  <artifact:dependencies filesetId="deps.fileset" useScope="test" >
+			  <pom refid="pomfile"/>
    		</artifact:dependencies>
    		<unzip dest="lib">
     		<fileset refid="deps.fileset" />

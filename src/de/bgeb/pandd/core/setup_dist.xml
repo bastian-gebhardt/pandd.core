@@ -7,21 +7,21 @@
     <property name="project_artifactId" value="myFirstLib" />
     <property name="project_version" value="0.1.0-SNAPSHOT" />
 
-    <property name="arche_groupId" value="de.bgeb.pandd.arche" />
+    <property name="arche_groupId" value="de.bgeb.pandd.architecture" />
     <property name="arche_artifactId" value="commonLib" />
     <property name="arche_version" value="1.0.0" />
     
     <property name="mvn_download_repo" value="http://localhost:8080/archiva/repository/php-release/" />
 	
-	<!-- if you have a parent-pom with repository settings aviable, define it here --> 
-	<property name="use_parent-pom" value="false" />
+	  <!-- if you have a parent-pom with repository settings aviable, define it here --> 
+	  <property name="use_parent-pom" value="false" />
     <property name="parent-pom_groupId" value="my.group.parent" />
     <property name="parent-pom_artifactId" value="pom" />
     <property name="parent-pom_version" value="1.0.0" />
 	
 	
-	<!-- use this config block to parse repositoriy settings and Distribution management directly to the project pom --> 
-	<property name="add_repo_config" value="true" />
+	  <!-- use this config block to parse repositoriy settings and Distribution management directly to the project pom --> 
+  	<property name="add_repo_config" value="true" />
     <property name="mvn_upload_repo" value="http://localhost:8080/archiva/repository/php-release/" />
     <property name="mvn_snapshot_upload_repo" value="http://localhost:8080/archiva/repository/php-snapshots/" />
     <property name="mvn_snapshot_download_repo" value="http://localhost:8080/archiva/repository/php-snapshots/" />
@@ -29,13 +29,13 @@
 	
     <!-- nothing to configure below -->     
 
-    <!-- Betriebssystemunabhaengige Loesung finden -->
+    <!-- TODO: change to a os-independent solution -->
     <exec executable="sed" inputstring="${arche_groupId}" outputproperty="arche_groupIdAsPath">
       <arg value="s/\./\//g"/>
     </exec>    
     
     <!-- downloads pandd framework from maven repo server -->
-   <target name="_prepare" >
+    <target name="_prepare" >
         <defaultexcludes remove="**/.gitignore"/>
         <delete includeEmptyDirs="true">
             <fileset dir="." excludes="setup.xml .git .project .buildpath .settings"/>

@@ -28,9 +28,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 	
 	<description>
-    	Implementation from Build file for Pandd Framework Developing
-    	(there are nothing to configure in this file)
-    </description>
+		Build target Implementations
+  </description>
 
 	<taskdef resource="net/sf/antcontrib/antlib.xml"/>
 	
