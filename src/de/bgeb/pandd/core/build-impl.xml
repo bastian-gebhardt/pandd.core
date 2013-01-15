@@ -3,38 +3,38 @@
 Copyright © 2012 by Bastian Gebhardt
 All rights reserved.
 
-Redistribution and use in source and binary forms, with or without modification, 
+Redistribution and use in source and binary forms, with or without modification,
 are permitted provided that the following conditions are met:
 
-1. Redistributions of source code must retain the above copyright notice, 
+1. Redistributions of source code must retain the above copyright notice,
    this list of conditions and the following disclaimer.
 
-2. Redistributions in binary form must reproduce the above copyright notice, 
-   this list of conditions and the following disclaimer in the documentation 
+2. Redistributions in binary form must reproduce the above copyright notice,
+   this list of conditions and the following disclaimer in the documentation
    and/or other materials provided with the distribution.
 
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE 
-IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE 
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
 ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE
 FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR 
-SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER 
-CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, 
-OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
 <project name="pandd.build-impl" basedir="." xmlns:artifact="antlib:org.apache.maven.artifact.ant">
 
-	
+
 	<description>
 		Build target Implementations
   </description>
 
 	<taskdef resource="net/sf/antcontrib/antlib.xml"/>
-	
+
 	<artifact:pom id="pomfile" file="pom.xml" />
-	
+
 	  <macrodef name="resolveProperty">
 	    <attribute name="property" />
 	  	<attribute name="part1" />
@@ -52,7 +52,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 	<available file="lib/${pomfile.properties.pandd.bootstrap.dev}" property="bootstrapfile-available" />
 	<available file="lib/${pomfile.properties.pandd.postupdate}" property="postupdateplugin-available" />
-	
+
     <target name="clean_dist">
         <defaultexcludes remove="**/.gitignore"/>
         <delete includeEmptyDirs="true">
@@ -60,58 +60,46 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
             <fileset dir="dist" includes="**/*" excludes="compiled/*" />
         </delete>
         <defaultexcludes add="**/.gitignore"/>
-    </target> 
-    
+    </target>
+
     <target name="clean_lib">
         <defaultexcludes remove="**/.gitignore"/>
         <delete includeEmptyDirs="true">
             <fileset dir="lib" includes="**/*" excludes=".gitignore" />
-        </delete>       
+        </delete>
         <defaultexcludes add="**/.gitignore"/>
-     </target> 
-    
+     </target>
+
     <target name="clean" depends="clean_lib, clean_dist" />
-	
-	
+
+
 	<target name="update-dependencies_stage2" depends="provide-bootstrap">
 		<runtarget target="post_update-dependencies"/>
 	</target>
 
-	
+
 	<target name="provide-bootstrap" if="${bootstrapfile-available}">
-		<ant antfile="lib/${pomfile.properties.pandd.bootstrap.dev}" target="pandd.bootstrap.dev.run" />	
-	</target>
-	
-	<target name="post_update-dependencies" if="${postupdateplugin-available}">
-		<ant antfile="lib/${pomfile.properties.pandd.postupdate}" target="pandd.postupdate.run" />	
-	</target>
-		
-	<target name="_test_syntax">
-		<exec executable="resources/syntax_check.sh" failonerror="true" />
+		<ant antfile="lib/${pomfile.properties.pandd.bootstrap.dev}" target="pandd.bootstrap.dev.run" />
 	</target>
 
-	<target name="_test_phpunit">
-		<exec executable="php" failonerror="true">
-			<arg line="resources/phpunit.php -c resources/phpunit.xml" />
-		</exec>
-	</target>	
-	
-	<target name="test" depends="_test_syntax, _test_phpunit" />
+	<target name="post_update-dependencies" if="${postupdateplugin-available}">
+		<ant antfile="lib/${pomfile.properties.pandd.postupdate}" target="pandd.postupdate.run" />
+	</target>
 
 	<target name="package" depends="clean_dist" >
 		<antcallback target="pandd.packaging.run" return="file-type"/>
 	</target>
-	
+
 	<target name="mvn_install" depends="package">
 				<artifact:install file="dist/${pomfile.artifactId}-${pomfile.version}.${file-type}">
 				  	<pom refid="pomfile"/>
-			     </artifact:install>				
+			     </artifact:install>
 	</target>
 	<target name="mvn_deploy" depends="mvn_install" >
       <artifact:pom id="deploypom" file="pom.xml" />
 				<artifact:deploy file="dist/${pomfile.artifactId}-${pomfile.version}.${file-type}">
 				  	<pom refid="deploypom"/>
-			     </artifact:deploy>				
+			     </artifact:deploy>
 
 	</target>
 </project>
