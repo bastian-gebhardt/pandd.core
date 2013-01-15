@@ -10,41 +10,41 @@
     <property name="arche_groupId" value="de.bgeb.pandd.architecture" />
     <property name="arche_artifactId" value="commonLib" />
     <property name="arche_version" value="1.0.0" />
-    
+
     <property name="mvn_download_repo" value="http://localhost:8080/archiva/repository/php-release/" />
-	
-	  <!-- if you have a parent-pom with repository settings aviable, define it here --> 
+
+	  <!-- if you have a parent-pom with repository settings aviable, define it here -->
 	  <property name="use_parent-pom" value="false" />
     <property name="parent-pom_groupId" value="my.group.parent" />
     <property name="parent-pom_artifactId" value="pom" />
     <property name="parent-pom_version" value="1.0.0" />
-	
-	
-	  <!-- use this config block to parse repositoriy settings and Distribution management directly to the project pom --> 
+
+
+	  <!-- use this config block to parse repositoriy settings and Distribution management directly to the project pom -->
   	<property name="add_repo_config" value="true" />
     <property name="mvn_upload_repo" value="http://localhost:8080/archiva/repository/php-release/" />
     <property name="mvn_snapshot_upload_repo" value="http://localhost:8080/archiva/repository/php-snapshots/" />
     <property name="mvn_snapshot_download_repo" value="http://localhost:8080/archiva/repository/php-snapshots/" />
-	
-	
-    <!-- nothing to configure below -->     
+
+
+    <!-- nothing to configure below -->
 
     <!-- TODO: change to a os-independent solution -->
     <exec executable="sed" inputstring="${arche_groupId}" outputproperty="arche_groupIdAsPath">
       <arg value="s/\./\//g"/>
-    </exec>    
-    
+    </exec>
+
     <!-- downloads pandd framework from maven repo server -->
     <target name="_prepare" >
         <defaultexcludes remove="**/.gitignore"/>
         <delete includeEmptyDirs="true">
-            <fileset dir="." excludes="setup.xml .git .project .buildpath .settings"/>
+            <fileset dir="." excludes=".git .project .buildpath .settings"/>
         </delete>
         <artifact:remoteRepository id="remote.repository" url="${mvn_download_repo}" />
         <artifact:pom id="virtual-pomfile" groupId="de.bgeb" artifactId="pandd-setup" version="1.0.0" name="PHP Lib Project">
             <dependency groupId="${arche_groupId}" artifactId="${arche_artifactId}" version="${arche_version}" scope="test" />
-        </artifact:pom> 
-        
+        </artifact:pom>
+
         <artifact:dependencies filesetId="deps.fileset" useScope="test">
             <pom refid="virtual-pomfile"/>
             <remoteRepository refid="remote.repository" />
@@ -57,6 +57,6 @@
 
     <target name="setup" depends="_prepare">
         <ant antfile="lib/${arche_groupIdAsPath}/${arche_artifactId}/setup-impl.xml" dir="." target="setup"/>
-    </target>   
-    
+    </target>
+
 </project>
