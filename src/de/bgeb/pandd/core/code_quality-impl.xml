@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright © 2012 by Bastian Gebhardt
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification,
+are permitted provided that the following conditions are met:
+
+1. Redistributions of source code must retain the above copyright notice,
+   this list of conditions and the following disclaimer.
+
+2. Redistributions in binary form must reproduce the above copyright notice,
+   this list of conditions and the following disclaimer in the documentation
+   and/or other materials provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+-->
+<project name="pandd.code_quality-impl" basedir="." xmlns:artifact="antlib:org.apache.maven.artifact.ant">
+
+
+	<description>
+		Code quality target Implementations
+  </description>
+
+	<taskdef resource="net/sf/antcontrib/antlib.xml"/>
+
+<!--	<artifact:pom id="pomfile" file="pom.xml" /> -->
+
+	<property name="resources.dir" value="resources"/>
+	<property name="src.dir" value="src"/>
+	<property name="build.dir" value="runtime/build/logs"/>
+	<property name="codebrowser.dir" value="runtime/build/codebrowser"/>
+
+	<target name="syntaxcheck" description="Syntax check with php (lint)">
+		<exec executable="${resources.dir}/syntax_check.sh" failonerror="true" />
+	</target>
+
+	<target name="phpunit" description="PHPUnit">
+		<property name="phpunit.config.filename" value="${resources.dir}/phpunit/phpunit.dist.xml"/>
+		<if>
+	        <available file="${phpunit.config.filename}"/>
+	        <then>
+	        	<property name="phpunit.config" value="${phpunit.config.filename}"/>
+	        </then>
+	    </if>
+		<var name="phpunit.config.filename" unset="true"/>
+		<property name="phpunit.config.filename" value="${resources.dir}/phpunit/phpunit.xml"/>
+		<if>
+	        <available file="${phpunit.config.filename}"/>
+	        <then>
+	        	<var name="phpunit.config" unset="true"/>
+	        	<property name="phpunit.config" value="${phpunit.config.filename}"/>
+	        </then>
+	    </if>
+		<exec executable="${resources.dir}/phpunit/phpunit.php">
+			<arg value="-c" />
+			<arg path="${phpunit.config}" />
+		</exec>
+	</target>
+
+	<target name="_test-all" description="Run all code tests">
+		<antcall target="syntaxcheck" />
+		<antcall target="phpunit" />
+		<parallel>
+			<antcall target="phpmd" />
+			<antcall target="phpcs" />
+			<antcall target="phpcpd" />
+			<antcall target="pdepend" />
+		</parallel>
+		<antcall target="phpcb" />
+	</target>
+
+   <target name="pdepend" description="Calculate software metrics using PHP_Depend">
+        <exec executable="${resources.dir}/pdepend.php">
+            <arg value="--jdepend-xml=${build.dir}/jdepend.xml" />
+            <arg value="--summary-xml=${build.dir}/jdepend2.xml" />
+            <arg value="--jdepend-chart=${build.dir}/dependencies.svg" />
+            <arg value="--overview-pyramid=${build.dir}/overview-pyramid.svg" />
+            <arg path="${src.dir}" />
+        </exec>
+    </target>
+
+    <target name="phploc" description="Measure project size using PHPLOC">
+        <exec executable="${resources.dir}/phploc.php">
+        	<arg value="--log-csv" />
+            <arg path="${build.dir}/php_loc.csv" />
+            <arg path="${src.dir}" />
+        </exec>
+    </target>
+
+    <target name="phpcpd" description="Find duplicate code using PHPCPD">
+        <exec executable="${resources.dir}/phpcpd.php">
+            <arg value="--log-pmd" />
+            <arg path="${build.dir}/pmd-cpd.xml" />
+            <arg path="${src.dir}" />
+        </exec>
+    </target>
+
+    <target name="phpcs" description="Find coding standard violations using PHP_CodeSniffer and print human readable output. Intended for usage on the command line before committing.">
+        <exec executable="${resources.dir}/phpcs.php">
+        	<arg value="--extensions=php" />
+            <arg value="--standard=Idealo" />
+            <arg value="--report=checkstyle" />
+            <arg value="--report-file=${build.dir}/checkstyle.xml" />
+            <arg path="${src.dir}" />
+        </exec>
+    </target>
+
+    <target name="phpmd" description="Perform project mess detection using PHPMD creating a log file for the continuous integration server">
+        <exec executable="${resources.dir}/phpmd/phpmd.php">
+            <arg path="${src.dir}" />
+            <arg value="xml" />
+            <arg path="${resources.dir}/phpmd/phpmd.xml" />
+            <arg value="--reportfile" />
+            <arg path="${build.dir}/pmd.xml" />
+        </exec>
+    </target>
+
+    <target name="phpcb" description="Aggregate tool output with PHP_CodeBrowser">
+    	<mkdir dir="${codebrowser.dir}"/>
+		<delete includeemptydirs="true">
+			<fileset dir="${codebrowser.dir}" includes="**/*"/>
+		</delete>
+        <exec executable="${resources.dir}/phpcb/phpcb.php">
+            <arg value="--log" />
+            <arg path="${build.dir}" />
+            <arg value="--source" />
+            <arg path="${src.dir}" />
+            <arg value="--output" />
+            <arg path="${codebrowser.dir}" />
+        	<arg value="--ignore" />
+        	<arg value="lib/,protected/,test/,/usr/,pandd.php" />
+        </exec>
+    	<echo>CodeBrowser output was generated in &lt;project_folder&gt;/${codebrowser.dir}/</echo>
+    </target>
+
+	<target name="_doc" description="Generate API documentation">
+		<exec executable="${resources.dir}/doxygen/doxygen.sh" failonerror="true" />
+		<echo>Documentation was generated in &lt;project_folder&gt;/doc/api/</echo>
+	</target>
+
+</project>
