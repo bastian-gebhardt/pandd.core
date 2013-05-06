@@ -1,0 +1,16 @@
+                           Pandd Core Change Log
+                           =====================
+
+Version 1.2.0 (2013-xx-xx)
+--------------------------
+
+Version 1.1.0 (2013-01-24)
+--------------------------
+
+- New: Ant tasks for use of code quality testing tools (PHPUnit, PHPMD, PHPCPD etc.)
+- New: Support for non-JAR artifacts
+
+Version 1.0.0 (2012-07-11)
+--------------------------
+
+- first production release
