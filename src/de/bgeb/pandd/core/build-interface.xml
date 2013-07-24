@@ -24,7 +24,7 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
-<project name="@add_project_name_here@" basedir="." xmlns:artifact="antlib:org.apache.maven.artifact.ant" xmlns:rsel="antlib:org.apache.tools.ant.types.resources.selectors">
+<project name="@add_project_name_here@ - Build" basedir="." xmlns:artifact="antlib:org.apache.maven.artifact.ant" xmlns:rsel="antlib:org.apache.tools.ant.types.resources.selectors">
     <description>
     	Build file for Pandd Framework Developing
     	(there is nothing to configure in this file)
