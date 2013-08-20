@@ -49,6 +49,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	<target name="_test-all" description="Run all code tests">
 		<ant antfile="lib/de/bgeb/pandd/core/code_quality-impl.xml" dir="." target="_test-all" />
 	</target>
+	
+	<target name="_test-all-codebrowser" description="Run all code tests (except syntaxcheck and phpunit)">
+		<ant antfile="lib/de/bgeb/pandd/core/code_quality-impl.xml" dir="." target="_test-all-codebrowser" />
+	</target>
 
    <target name="pdepend" description="Calculate software metrics using PHP_Depend">
    	<ant antfile="lib/de/bgeb/pandd/core/code_quality-impl.xml" dir="." target="pdepend" />

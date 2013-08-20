@@ -78,6 +78,16 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		</parallel>
 		<antcall target="phpcb" />
 	</target>
+	
+	<target name="_test-all-codebrowser" description="Run all code tests (except syntaxcheck and phpunit)">
+		<antcall target="pdepend" />
+		<parallel>
+			<antcall target="phpmd" />
+			<antcall target="phpcs" />
+			<antcall target="phpcpd" />
+		</parallel>
+		<antcall target="phpcb" />
+	</target>
 
    <target name="pdepend" description="Calculate software metrics using PHP_Depend">
         <exec executable="${resources.dir}/pdepend.php">
