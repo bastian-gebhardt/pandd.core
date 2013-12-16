@@ -35,6 +35,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 <!--	<artifact:pom id="pomfile" file="pom.xml" /> -->
 
+	<property name="lib.dir" value="lib"/>
 	<property name="resources.dir" value="resources"/>
 	<property name="src.dir" value="src"/>
 	<property name="build.dir" value="runtime/build/logs"/>
@@ -153,9 +154,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     	<echo>CodeBrowser output was generated in &lt;project_folder&gt;/${codebrowser.dir}/</echo>
     </target>
 
-	<target name="_doc" description="Generate API documentation">
-		<exec executable="${resources.dir}/doxygen/doxygen.sh" failonerror="true" />
-		<echo>Documentation was generated in &lt;project_folder&gt;/doc/api/</echo>
-	</target>
+    <target name="_doc" description="Generate API documentation">
+        <exec executable="php" failonerror="true">
+            <arg path="${lib.dir}/apigen/apigen.php" />
+            <arg value="-c" />
+            <arg value="${resources.dir}/apigen/apigen.conf" />
+        </exec>
+    </target>
 
 </project>
