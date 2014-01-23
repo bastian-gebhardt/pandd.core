@@ -1,6 +1,11 @@
                            Pandd Core Change Log
                            =====================
 
+Version 1.4.0 (2014-01-23)
+--------------------------
+
+- New: Ant task to run functional tests
+
 Version 1.3.0 (2013-12-16)
 --------------------------
 

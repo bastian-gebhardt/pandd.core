@@ -45,7 +45,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		<exec executable="${resources.dir}/syntax_check.sh" failonerror="true" />
 	</target>
 
-	<target name="phpunit" description="PHPUnit">
+	<target name="phpunit_unit" description="Run unit tests with PHPUnit">
 		<property name="phpunit.config.filename" value="${resources.dir}/phpunit/phpunit.dist.xml"/>
 		<if>
 	        <available file="${phpunit.config.filename}"/>
@@ -65,12 +65,38 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		<exec executable="${resources.dir}/phpunit/phpunit.php">
 			<arg value="-c" />
 			<arg path="${phpunit.config}" />
+			<arg value="--testsuite=Unit" />
 		</exec>
 	</target>
+	
+    <target name="phpunit_functional" description="Run functional tests with PHPUnit">
+        <property name="phpunit.config.filename" value="${resources.dir}/phpunit/phpunit.dist.xml"/>
+        <if>
+            <available file="${phpunit.config.filename}"/>
+            <then>
+                <property name="phpunit.config" value="${phpunit.config.filename}"/>
+            </then>
+        </if>
+        <var name="phpunit.config.filename" unset="true"/>
+        <property name="phpunit.config.filename" value="${resources.dir}/phpunit/phpunit.xml"/>
+        <if>
+            <available file="${phpunit.config.filename}"/>
+            <then>
+                <var name="phpunit.config" unset="true"/>
+                <property name="phpunit.config" value="${phpunit.config.filename}"/>
+            </then>
+        </if>
+        <exec executable="${resources.dir}/phpunit/phpunit.php">
+            <arg value="-c" />
+            <arg path="${phpunit.config}" />
+            <arg value="--testsuite=Functional" />
+        </exec>
+    </target>
 
 	<target name="_test-all" description="Run all code tests">
 		<antcall target="syntaxcheck" />
-		<antcall target="phpunit" />
+        <antcall target="phpunit_functional" />
+		<antcall target="phpunit_unit" />
 		<antcall target="pdepend" />
 		<parallel>
 			<antcall target="phpmd" />
