@@ -1,6 +1,11 @@
                            Pandd Core Change Log
                            =====================
 
+Version 1.4.1 (2014-01-27)
+--------------------------
+
+- Chg: All Ant tasks now reside in build.xml (code_quality.xml no longer exists)
+
 Version 1.4.0 (2014-01-23)
 --------------------------
 

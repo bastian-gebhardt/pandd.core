@@ -72,11 +72,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
     <target name="clean" depends="clean_lib, clean_dist" />
 
-
 	<target name="update-dependencies_stage2" depends="provide-bootstrap">
 		<runtarget target="post_update-dependencies"/>
 	</target>
-
 
 	<target name="provide-bootstrap" if="${bootstrapfile-available}">
 		<ant antfile="lib/${pomfile.properties.pandd.bootstrap.dev}" target="pandd.bootstrap.dev.run" />
@@ -91,15 +89,14 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	</target>
 
 	<target name="mvn_install" depends="package">
-				<artifact:install file="dist/${pomfile.artifactId}-${pomfile.version}.${file-type}">
-				  	<pom refid="pomfile"/>
-			     </artifact:install>
+		<artifact:install file="dist/${pomfile.artifactId}-${pomfile.version}.${file-type}">
+		  	<pom refid="pomfile"/>
+	    </artifact:install>
 	</target>
 	<target name="mvn_deploy" depends="mvn_install" >
-      <artifact:pom id="deploypom" file="pom.xml" />
-				<artifact:deploy file="dist/${pomfile.artifactId}-${pomfile.version}.${file-type}">
-				  	<pom refid="deploypom"/>
-			     </artifact:deploy>
-
+        <artifact:pom id="deploypom" file="pom.xml" />
+        <artifact:deploy file="dist/${pomfile.artifactId}-${pomfile.version}.${file-type}">
+            <pom refid="deploypom"/>
+        </artifact:deploy>
 	</target>
 </project>
