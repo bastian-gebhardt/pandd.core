@@ -24,7 +24,7 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
-<project name="@add_project_name_here@ - Build" basedir="." xmlns:artifact="antlib:org.apache.maven.artifact.ant" xmlns:rsel="antlib:org.apache.tools.ant.types.resources.selectors">
+<project name="@add_project_name_here@" basedir="." xmlns:artifact="antlib:org.apache.maven.artifact.ant" xmlns:rsel="antlib:org.apache.tools.ant.types.resources.selectors">
     <description>
     	Build file for Pandd Framework Developing
     	(there is nothing to configure in this file)
@@ -34,42 +34,90 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 	<artifact:pom id="pomfile" file="pom.xml" />
 
-	<target name="clean" description="">
-		<ant antfile="lib/de/bgeb/pandd/core/build-impl.xml" dir="." target="clean"/>
-	</target>
-
-	<target name="update-dependencies" description="">
+    <target name="clean" description="empty dist and lib folders">
+        <ant antfile="lib/de/bgeb/pandd/core/build-impl.xml" dir="." target="clean"/>
+    </target>
+    
+    <target name="update_dependencies" description="">
         <defaultexcludes remove="**/.gitignore"/>
         <delete includeEmptyDirs="true">
             <fileset dir="lib" includes="**/*" excludes=".gitignore" />
         </delete>
-		<delete file="pandd.php" />
+        <delete file="pandd.php" />
         <defaultexcludes add="**/.gitignore"/>
-		<artifact:dependencies filesetId="deps.fileset" useScope="test" >
-			  <pom refid="pomfile"/>
-   		</artifact:dependencies>
-		<restrict id="filtered.deps">
-			<fileset refid="deps.fileset"/>
-			<rsel:name name="*.jar"/>
-		</restrict>
-		<unzip dest="lib">
-			<restrict refid="filtered.deps" />
-		</unzip>
-		<ant antfile="lib/de/bgeb/pandd/core/build-impl.xml" dir="." target="update-dependencies_stage2"/>
+        <artifact:dependencies filesetId="deps.fileset" useScope="test" >
+              <pom refid="pomfile"/>
+        </artifact:dependencies>
+        <restrict id="filtered.deps">
+            <fileset refid="deps.fileset"/>
+            <rsel:name name="*.jar"/>
+        </restrict>
+        <unzip dest="lib">
+            <restrict refid="filtered.deps" />
+        </unzip>
+        <ant antfile="lib/de/bgeb/pandd/core/build-impl.xml" dir="." target="update-dependencies_stage2"/>
     </target>
 
-	<target name="package" description="">
-		<ant antfile="lib/de/bgeb/pandd/core/build-impl.xml" dir="." target="package">
-		</ant>
-	</target>
+    <target name="package" description="">
+        <ant antfile="lib/de/bgeb/pandd/core/build-impl.xml" dir="." target="package project to dist folder">
+        </ant>
+    </target>
 
-	<target name="mvn_install" description="">
-		<ant antfile="lib/de/bgeb/pandd/core/build-impl.xml" dir="." target="mvn_install">
-		</ant>
-	</target>
+    <target name="mvn_install" description="">
+        <ant antfile="lib/de/bgeb/pandd/core/build-impl.xml" dir="." target="install package in local maven cache">
+        </ant>
+    </target>
+    
+    <target name="mvn_deploy" description="">
+        <ant antfile="lib/de/bgeb/pandd/core/build-impl.xml" dir="." target="deploy package to artifact server">
+        </ant>
+    </target>
+    
+    <target name="syntaxcheck" description="Syntax check using php (lint)">
+        <ant antfile="lib/de/bgeb/pandd/core/code_quality-impl.xml" dir="." target="syntaxcheck" />
+    </target>
 
-	<target name="mvn_deploy" description="">
-		<ant antfile="lib/de/bgeb/pandd/core/build-impl.xml" dir="." target="mvn_deploy">
-		</ant>
-	</target>
+    <target name="phpunit_unit_tests" description="Run unit tests with PHPUnit">
+        <ant antfile="lib/de/bgeb/pandd/core/code_quality-impl.xml" dir="." target="phpunit_unit" />
+    </target>
+    
+    <target name="phpunit_functional_tests" description="Run functional tests with PHPUnit">
+        <ant antfile="lib/de/bgeb/pandd/core/code_quality-impl.xml" dir="." target="phpunit_functional" />
+    </target>
+
+    <target name="test_all" description="Run all code tests">
+        <ant antfile="lib/de/bgeb/pandd/core/code_quality-impl.xml" dir="." target="_test-all" />
+    </target>
+    
+    <target name="test_all_codebrowser" description="Run all code tests (except syntaxcheck and phpunit)">
+        <ant antfile="lib/de/bgeb/pandd/core/code_quality-impl.xml" dir="." target="_test-all-codebrowser" />
+    </target>
+
+   <target name="pdepend" description="Calculate software metrics using PHP_Depend">
+    <ant antfile="lib/de/bgeb/pandd/core/code_quality-impl.xml" dir="." target="pdepend" />
+    </target>
+
+    <target name="phploc" description="Measure project size using PHPLOC">
+        <ant antfile="lib/de/bgeb/pandd/core/code_quality-impl.xml" dir="." target="phploc" />
+    </target>
+
+    <target name="phpcpd" description="Find duplicate code using PHPCPD">
+        <ant antfile="lib/de/bgeb/pandd/core/code_quality-impl.xml" dir="." target="phpcpd" />
+    </target>
+
+    <target name="phpcs" description="Find coding standard violations using PHP_CodeSniffer and print human readable output. Intended for usage on the command line before committing.">
+        <ant antfile="lib/de/bgeb/pandd/core/code_quality-impl.xml" dir="." target="phpcs" />
+    </target>
+
+    <target name="phpmd" description="Perform project mess detection using PHPMD creating a log file for the continuous integration server">
+        <ant antfile="lib/de/bgeb/pandd/core/code_quality-impl.xml" dir="." target="phpmd" />
+    </target>
+
+    <target name="phpcb" description="Aggregate tool output with PHP_CodeBrowser">
+        <ant antfile="lib/de/bgeb/pandd/core/code_quality-impl.xml" dir="." target="phpcb" />
+    </target>
+
+    <target name="doc" description="Generate API documentation">
+        <ant antfile="lib/de/bgeb/pandd/core/code_quality-impl.xml" dir="." target="_doc" />
+    </target>
 </project>
