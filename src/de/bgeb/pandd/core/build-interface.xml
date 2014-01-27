@@ -58,18 +58,18 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         <ant antfile="lib/de/bgeb/pandd/core/build-impl.xml" dir="." target="update-dependencies_stage2"/>
     </target>
 
-    <target name="package" description="">
-        <ant antfile="lib/de/bgeb/pandd/core/build-impl.xml" dir="." target="package project to dist folder">
+    <target name="package" description="package project to dist folder">
+        <ant antfile="lib/de/bgeb/pandd/core/build-impl.xml" dir="." target="package">
         </ant>
     </target>
 
-    <target name="mvn_install" description="">
-        <ant antfile="lib/de/bgeb/pandd/core/build-impl.xml" dir="." target="install package in local maven cache">
+    <target name="mvn_install" description="install package in local maven cache">
+        <ant antfile="lib/de/bgeb/pandd/core/build-impl.xml" dir="." target="mvn_install">
         </ant>
     </target>
     
-    <target name="mvn_deploy" description="">
-        <ant antfile="lib/de/bgeb/pandd/core/build-impl.xml" dir="." target="deploy package to artifact server">
+    <target name="mvn_deploy" description="deploy package to artifact server">
+        <ant antfile="lib/de/bgeb/pandd/core/build-impl.xml" dir="." target="mvn_deploy">
         </ant>
     </target>
     
